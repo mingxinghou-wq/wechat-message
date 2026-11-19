@@ -27,7 +27,9 @@ const msgBox = ref(null)
 const currentRefs = ref([])
 const onSelectRef = (refs) => { currentRefs.value = refs }
 watch(()=>chat.messages, ()=>{
-  setTimeout(()=>{ msgBox.value?.scrollTop = msgBox.value.scrollHeight }, 50)
+  setTimeout(()=>{
+    if (msgBox.value) msgBox.value.scrollTop = msgBox.value.scrollHeight
+  }, 50)
 },{deep:true})
 </script>
 
