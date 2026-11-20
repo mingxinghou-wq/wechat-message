@@ -1,0 +1,81 @@
+/* ===== ChatKB 全局样式 · 豆包同款 ===== */
+:root {
+  --bg-page: #f4f6f9;
+  --bg-sidebar: #f7f8fa;
+  --bg-panel: #ffffff;
+  --bg-bubble-ai: #ffffff;
+  --bg-bubble-user: #3b7cff;
+  --bg-hover: #eceff3;
+  --bg-active: #e7efff;
+  --border: #e8ebf0;
+  --text-primary: #1f2329;
+  --text-secondary: #8a8f99;
+  --accent: #3b7cff;
+  --accent-soft: #e7efff;
+  --shadow-bubble: 0 1px 3px rgba(16, 24, 40, 0.06);
+  --shadow-card: 0 2px 12px rgba(16, 24, 40, 0.08);
+}
+
+html.dark {
+  --bg-page: #17181c;
+  --bg-sidebar: #1f2024;
+  --bg-panel: #232428;
+  --bg-bubble-ai: #2a2b30;
+  --bg-bubble-user: #3b7cff;
+  --bg-hover: #2e3036;
+  --bg-active: #2c3a55;
+  --border: #33353b;
+  --text-primary: #e6e8eb;
+  --text-secondary: #9aa0a8;
+  --accent: #5c93ff;
+  --accent-soft: #2c3a55;
+  --shadow-bubble: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-page);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(120, 130, 145, 0.35); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(120, 130, 145, 0.55); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* Markdown 排版 */
+.md-body p { margin: 6px 0; line-height: 1.7; }
+.md-body ul, .md-body ol { margin: 6px 0; padding-left: 22px; }
+.md-body code {
+  background: rgba(59, 124, 255, 0.1);
+  color: var(--accent);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: "SF Mono", Consolas, monospace;
+}
+.md-body pre {
+  background: #232428;
+  color: #e6e8eb;
+  padding: 12px 14px;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+.md-body pre code { background: transparent; color: inherit; padding: 0; }
+.md-body h1, .md-body h2, .md-body h3 { margin: 12px 0 6px; }
+.md-body table { border-collapse: collapse; }
+.md-body th, .md-body td { border: 1px solid var(--border); padding: 6px 10px; }
