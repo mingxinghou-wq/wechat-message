@@ -16,5 +16,6 @@ import Sidebar from './components/Sidebar.vue'
   margin: 0;
   padding: 0;
   overflow: hidden;
+  background: var(--bg-page);
 }
 </style>
