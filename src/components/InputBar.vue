@@ -28,8 +28,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useChatStore } from '../stores/useChat.js'
-import { apiPost } from '../utils/request.js'
-import { getApiBase } from '../utils/request.js'
+import { apiPost, getApiBase } from '../utils/request.js'
 import { Promotion } from '@element-plus/icons-vue'
 
 const chat = useChatStore()
@@ -38,6 +37,37 @@ const inputText = ref('')
 const onEnter = (e) => {
   if (e.shiftKey) return
   send()
+}
+
+// 无后端时的本地演示流式：展示打字机效果与引用面板
+const mockStream = (aiMsg, q) => {
+  const answer = [
+    '【演示模式 · 尚未配置后端】',
+    '',
+    `你问的是：「${q}」`,
+    '',
+    '当前没有连接真实知识库后端，这是前端内置的模拟回答，用来展示豆包式流式打字效果和右侧引用面板。',
+    '',
+    '### 如何接入真实问答',
+    '1. 在左侧「后端地址」填入公网 **HTTPS** 的 FastAPI 地址（如 https://api.example.com）；',
+    '2. 前端会自动切换为 SSE 流式调用 `/api/rag/stream`；',
+    '3. 若在本机跑 Ollama，请用本地 `npm run dev`（http://localhost:3000）访问，Pages 线上版连不到 127.0.0.1。',
+    '',
+    '下面两条是示例引用片段，点气泡下方「查看引用」可在右侧面板展开。'
+  ].join('\n')
+  aiMsg.refs = [
+    { similarity: 0.92, ts: '2026-11-20', content: 'RAG 检索增强生成：先从知识库向量库召回相关片段，再交给大模型基于片段作答，降低幻觉。' },
+    { similarity: 0.87, ts: '2026-11-20', content: 'SSE（Server-Sent Events）通过 text/event-stream 逐字推送实现打字机效果，前端用 EventSource 接收。' }
+  ]
+  let i = 0
+  const timer = setInterval(() => {
+    i += 3
+    aiMsg.text = answer.slice(0, i)
+    if (i >= answer.length) {
+      clearInterval(timer)
+      aiMsg.loading = false
+    }
+  }, 24)
 }
 
 const send = async () => {
@@ -49,6 +79,7 @@ const send = async () => {
   const aiMsg = { isUser: false, text: '', loading: true, refs: [] }
   chat.messages.push(aiMsg)
   const base = getApiBase()
+  if (!base) { mockStream(aiMsg, q); return }
   try {
     const source = new EventSource(`${base}/api/rag/stream?q=${encodeURIComponent(q)}&tenant_id=${chat.tenantId}&model=${encodeURIComponent(chat.selectedModel)}`)
     source.onmessage = (e) => {
